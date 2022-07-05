@@ -1,0 +1,11 @@
+Mongo DB
+ ->기존 RDB 구조가가 아닌 문서지향 데이터모델을 사용하는 교차플랫폼 오픈소스 데이터베이스.
+ ->비필수 스키마와 함께 JSON과 같은 문서를 사용하여 데이터를 저장하는 NoSQL 데이터베이스
+ (NoSQL)
+특징
+-NoSQL
+-스키마 프리(Schema-Free)
+-비 관계형 데이터베이스
+: 몽구스를 통한 몽고DB 연결
+
+MONGO DB https://coding-start.tistory.com/273
