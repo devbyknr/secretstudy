@@ -14,16 +14,17 @@ app.use(bodyParser.urlencoded({extended:true}));
 //application/json형태를 분석해서 가져옴 
 app.use(bodyParser.json());
 
+const config = require('./config/key');
 const mongoose = require('mongoose')
-mongoose.connect('mongodb+srv://wooguk:jjangws7@cluster0.2atho59.mongodb.net/?retryWrites=true&w=majority',{
+mongoose.connect(config.mongoURI,{
     useNewUrlParser:true, useUnifiedTopology: true
 }).then(() => console.log('MongoDB Connected..'))
 .catch(err => console.log(err));
 
-
+//npm install nodemon --save-dev (로컬에서만 진행을 하겠다!)
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('오마이갓!!! 노드몬!! 재기동 안해도 바로 반영 되')
 })
 
 app.post('/register',(req, res)=>{
