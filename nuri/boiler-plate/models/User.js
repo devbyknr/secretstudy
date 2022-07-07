@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
         maxlength : 50
     },
     role : { //관리자 or 일반유저 등
-        type : Number 
+        type : Number,
         defalut : 0
 
     },
