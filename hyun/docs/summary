@@ -1,0 +1,138 @@
+1. NPM 초기설정
+
+https://nodejs.org
+Nodejs download and install
+
+2. NPM 설치
+2-1) npm init
+프로젝트 메인 디렉토리에서 실행하면
+pakage.json 파일 생성
+
+2-2) npm install [패키지명] [--save]
+패키지 설치를 하며, --save 인자 추가 시 pakage.json에 자동으로 디펜던시가 추가된다.
+
+
+3. pakage.json 뜯어보기
+  "scripts": {
+    "start": "node index.js",
+    "backend": "nodemon index.js", -> Nodemon 노드js 실시간 배포(핫디플로이)용 패키지, npm install --save-dev nodemon (-dev인자 포함 시 개발환경에서만 실행되며, devDependencies에 포함된다.)
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+    ---> npm run [스크립트명] 으로 스크립트 실행이 가능함.
+
+  "dependencies": {
+    "bcrypt": "^5.0.1",         -> 암호화
+    "body-parser": "^1.20.0",   -> http request의 body 파서
+    "cookie-parser": "^1.4.6",  -> http request의 cookie 파서
+    "express": "^4.18.1",       -> nodeJs 엔진 기반의 백엔드 WAS
+    "jsonwebtoken": "^8.5.1",   -> jwt 생성 및 인코딩/디코딩
+    "mongoose": "^6.4.4"        -> mongoDB 접속 도우미
+  },
+    ---> 현재 프로젝트에 인클루드되어 있는 패키지들의 디펜던시를 설정한다.
+
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+
+
+3. Mongo DB 
+
+https://www.mongodb.com/
+
+회원가입 - 로그인 후 free shared cloud DB repository 생성
+
+User생성 및 password 설정
+-> User명과 password를 통해서 express와 DB를 연결한다.
+
+express <-> MongoDB 연결을 도와주는 패키지
+mongoose
+npm install mongoose
+
+사용법
+mongoose.connect('key').then(()=>console.log('MongoDB connected...')).catch(err => console.log(err))
+
+
+3-1. DB 모델 생성 
+스키마? 데이터베이스의 메타정보
+모델이란? 디비 스키마를 감싸주는 역할. 메소드, 스키마의 설정 등..
+js 파일로 생성한다.
+
+사용법
+const userSchema = mongoose.Schema({
+    name : {
+        type: String,
+        manlength: 50
+    }
+})
+const User = mongoose.model('User',userSchema)
+module.exports = {User}
+
+4. GIT
+
+git 다운로드 및 설치
+https://git-scm.com/
+
+!!Git의 4가지 상태
+1) working directory
+2) staging Area
+3) git repository(local)
+4) git repository(remote)
+
+1)
+git init
+->working directory 상태
+
+2)
+git add [경로]
+staging Area 상태
+git restore [파일명] -> 파일을 HEAD commit 단계로 되돌린다.
+->git restore --staged [파일명] -> Staging Area의 파일을 unstaged시킨다
+
+3)
+git commit -m [커밋 메세지]
+->git repository(local) 상태
+
+4)
+git push origin [브랜치 or main]
+->git repository(remote) 상태
+
+필요없는 파일을 git에 커밋하지 않아도 된다.
+.gitignore파일 생성 후
+node_modules 작성 하면 node_modules는 깃 작업에서 제외된다.
+
+
+git clone [REPO_URL] [DIR]
+-> 깃허브의 저장소를 복사해온다. DIR은 웬만하면 생략함.
+
+git remote -v
+-> 현재 붙어잇는 원격저장소 확인
+
+git status
+-> 현재 add 및 수정상태를 확인
+
+git branch [브랜치명]
+-> 깃 브랜치 생성
+
+git branch -r
+-> 원격 저장소 브랜치 상태 확인
+
+git []
+checkout: Switch branches or restore working tree files
+switch: Switch branches
+restore: Restore working tree files
+
+git switch [브랜치명]
+-> 브랜치 변경
+
+git push origin --delete [브랜치명]
+-> 원격 브랜치 삭제
+
+
+5. PostMan 
+
+http request를 만들어주는 보조 도구
+다운로드 및 설치
+https://www.postman.com/downloads/
+
+
+6. 
