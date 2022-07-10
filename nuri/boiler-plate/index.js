@@ -3,6 +3,7 @@ const app = express()
 const port = 5000 //임의 포트 설정
 
 const config = require('./config/key');
+const {auth} = require("./middleware/auth")
 const {User} = require("./models/User");
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -30,7 +31,7 @@ app.get('/', (req, res) => {
 })
 
 //회원가입을 위한 route 생성 (endpoint는 register)
-app.post('/register', (req, res) => {
+app.post('api/users/register', (req, res) => {
   //회원가입에 필요한 정보를 client에서 가져오면
   //그것들을 DB에 넣어준다.
     const user = new User(req.body)
@@ -49,7 +50,7 @@ app.post('/register', (req, res) => {
 })
 
 //로그인 route 생성(endpoint는 login)
-app.post('/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
   //1. DB에서 요청된 이메일 찾기
   User.findOne({email : req.body.email}, (err, user) => {
     if(!user){
@@ -80,6 +81,27 @@ app.post('/login', (req, res) => {
       .json({loginSuccess : true, userId : user._id})
       })
     })
+  })
+})
+
+//Auth route 생성
+app.get('api/users/auth', auth,(req, res)=>{
+  //auth middleware 추가 -> endpoint 실행 후 callback 전 수행되는 부분
+
+  //여기가 실행된다면 authentication = true
+  console.log('authentification is true')
+
+  //client에게 정상 상태와 user 정보를 전달
+  res.status(200)
+  .json({
+    _id : req.user._id,
+    isAdmin : req.user.role == 0 ? false : true,
+    isAuth : true,
+    email : req.user.email,
+    name : req.user.name,
+    lastname : req.user.lastname,
+    role : req.user.role,
+    iamge : req.user.iamge
   })
 })
 
