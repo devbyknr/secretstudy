@@ -1,4 +1,4 @@
-const {User} = require('./models/User') //User모델 불러옴
+const {User} = require('../models/User'); //User모델 불러옴
 
 let auth = (req, res, next)=>{ //인증 처리 수행
 
@@ -13,7 +13,7 @@ let auth = (req, res, next)=>{ //인증 처리 수행
         //request 정보에 세팅 후, middleware 이후 로직 수행
         req.token = token;
         req.user = user;
-        next(); //middleware 이후 로직 수행
+        next();
     })
 
     //3. 유저가 있으면 인증 OK
