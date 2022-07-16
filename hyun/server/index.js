@@ -23,6 +23,11 @@ app.get('/', (req, res) => {
   res.send('Hello World! 아ㄴ녕ㅏ세asdfasdf')
 })
 
+app.get('/api/hello', (req, res) => {
+  res.send('hello OK');
+})
+
+
 app.post('/api/register',(req,res)=>{
   //회원가입시 정보 가져오기
 
