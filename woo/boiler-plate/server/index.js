@@ -31,6 +31,10 @@ app.get('/', (req, res) => {
   res.send('오마이갓!!! 노드몬!! 재기동 안해도 바로 반영 되')
 })
 
+app.get('/api/hello', (req, res)=>{
+  res.send("안녕하세요~!")
+})
+
 app.post('/api/users/register',(req, res)=>{
   //회원가입할때 필요한 정보들을 클라이언트에서 가져오면 그것들을 디비에 넣어준다.
   const user = new User(req.body);

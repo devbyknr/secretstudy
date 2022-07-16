@@ -1,16 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
+import LandingPage from './components/views/LandingPage/Landingpage';
+import LoginPage from './components/views/LoginPage/LoginPage';
+import RegisterPage from './components/views/RegisterPage/RegisterPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Hello Reacts</p>
-        <p>public 디렉터리 안에는 webpack이 관리를 해주지 않으니</p>
-        <p>src영역에다가 넣어야 한다.</p>
-      </header>
-    </div>
+    <>
+    <BrowserRouter>
+    <Routes>
+        {/*
+          react-router-dom 에서 6버전 이상 부터는
+          Switch를 더이상 지원하지 않는다.
+          Switch에서 Routes로 변경 되었으며, 
+          NextJs에서는 next/router를 통해서 routing가능!
+        */}
+          <Route exact path="/" element={<LandingPage/>}/>
+          <Route path="/Login" element={<LoginPage/>}/>
+          <Route path="/Register" element={<RegisterPage/>}/>
+    </Routes>
+    </BrowserRouter>
+    </>
   );
 }
-
 export default App;
+
