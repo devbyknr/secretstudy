@@ -33,9 +33,10 @@ app.get('/', (req, res) => {
 })
 
 //회원가입을 위한 route 생성 (endpoint는 register)
-app.post('api/users/register', (req, res) => {
+app.post('/api/users/register', (req, res) => {
   //회원가입에 필요한 정보를 client에서 가져오면
   //그것들을 DB에 넣어준다.
+    console.log(req.body);
     const user = new User(req.body)
     //req.body에 client에서 보내는 정보를 담음
 
@@ -54,6 +55,7 @@ app.post('api/users/register', (req, res) => {
 //로그인 route 생성(endpoint는 login)
 app.post('/api/users/login', (req, res) => {
   //1. DB에서 요청된 이메일 찾기
+  console.log(req.body);
   User.findOne({email : req.body.email}, (err, user) => {
     if(!user){
       return res.json({
