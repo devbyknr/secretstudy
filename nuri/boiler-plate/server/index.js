@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const port = 5000 //임의 포트 설정
 
 const config = require('./config/key');
 const {auth} = require("./middleware/auth")
@@ -32,6 +31,10 @@ app.get('/', (req, res) => {
   res.send('Hello World :) 안녕')
 })
 
+app.get('/api/hello', (req, res) => {
+  res.send("안녕하세요 to axios")
+})
+
 //회원가입을 위한 route 생성 (endpoint는 register)
 app.post('/api/users/register', (req, res) => {
   //회원가입에 필요한 정보를 client에서 가져오면
@@ -57,17 +60,20 @@ app.post('/api/users/login', (req, res) => {
   //1. DB에서 요청된 이메일 찾기
   console.log(req.body);
   User.findOne({email : req.body.email}, (err, user) => {
+    console.log("이메일 검증 시작 : "+req.body.email);
     if(!user){
       return res.json({
         loginSuccess : false,
         message : "이메일에 해당하는 회원 없음"
       })
     }
-  
+    console.log("이메일 검증 결과 : "+user);
+    console.log("비번 검증 시작 : "+req.body.password);
     //2. 이메일의 비밀번호가 같은지 확인
     user.comparePassword(req.body.password, (err, isMatch)=>{
       //comparePassword User모델에 생성
-      if(!isMatch) 
+      console.log("비밀번호 매칭 여부 : "+isMatch);
+      if(!isMatch)
         return json({loginSuccess : false, message : '비밀번호 틀림'})
       
       //3. 비밀번호가 일치하면 토큰 생성
@@ -120,6 +126,8 @@ app.get("/api/users/logout", auth, (req, res)=>{
       })
     })
 })
+
+const port = 5000 //임의 포트 설정
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

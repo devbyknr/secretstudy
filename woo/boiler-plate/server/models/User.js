@@ -60,21 +60,21 @@ userSchema.pre('save', function(next){
 
 userSchema.methods.comparePassword = function(plainPassword, callbackfunc){
     //평문을 암호화해서 db 값과 비교
-    console.log("UserSchema object : "+this);
-    console.log("comparePassword : "+ plainPassword, this.password)
+    console.log("plainPassword ; " + plainPassword);
+    console.log("this.password ; " + this.password);
     bcrypt.compare(plainPassword, this.password, function(err, isMatch){
         if(err) return callbackfunc(err)
-        callbackfunc(null, isMatch)
+        return callbackfunc(null, isMatch)
     })
 }
 
 userSchema.methods.generateToken = function(callbackfunc){
     //jsonwebtoken 이용해 토큰 생성
-    var user = this;
+    let user = this;
 
     //user._id + secretToken이란 txt를 이용해 Token 생성
     //secretToken을 이용해 user._id 도출 가능
-    var token = jwt.sign(user._id.toHexString(), 'secretToken')
+    let token = jwt.sign(user._id.toHexString(), 'secretToken')
 
     user.token = token
     user.save(function(err, user) {
@@ -83,19 +83,19 @@ userSchema.methods.generateToken = function(callbackfunc){
     })
 }
 
-userSchema.statics.findByToken = function(token, callbackFunc){
-    var user = this;
-    
-    //토큰 복호화(토큰은 user._id + secretToken)
-    jwt.verify(token, 'secretToken', function(err, decoded) {
-        //1. decoded UserId를 이용해 User를 찾음
-        //2. 클라이언트에서 가져온 토큰과 DB에 보관된 토큰 일치 여부 확인
-        user.findOne({"_id" : decoded, "token" : token}, function(err, user){
-            if(err) return callbackFunc(err)
-            callbackFunc(null, user)
+userSchema.statics.findByToken = function(token, cb){
+    let user = this;
+    //토큰을 디코드 한다.
+    jwt.verify(token, 'secretToken', function(err, decoded){
+        //docode 된 값은 아이디
+        //클라이언트에서 가져온 토큰과 디비에 보관된 토큰이 일치하는지 확인
+        user.findOne({"_id":decoded, "token" :token }, function(err, user){
+            if(err) return cb(err);
+            cb(null, user);
         })
     })
 }
+
 //모델은 스키마를 감싸주는 역할 model(모델명, 스키마)
 const User = mongoose.model('User', userSchema)
 
