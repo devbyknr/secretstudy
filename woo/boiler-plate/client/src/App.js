@@ -8,6 +8,7 @@ import {
 import LandingPage from './components/views/LandingPage/Landingpage';
 import LoginPage from './components/views/LoginPage/LoginPage';
 import RegisterPage from './components/views/RegisterPage/RegisterPage';
+import Auth from './hoc/auth';
 
 function App() {
   return (
@@ -20,9 +21,9 @@ function App() {
           Switch에서 Routes로 변경 되었으며, 
           NextJs에서는 next/router를 통해서 routing가능!
         */}
-          <Route exact path="/" element={<LandingPage/>}/>
-          <Route path="/Login" element={<LoginPage/>}/>
-          <Route path="/Register" element={<RegisterPage/>}/>
+          <Route exact path="/" element={Auth(LandingPage,null)}/>
+          <Route exact path="/Login" element={Auth(LoginPage,false)}/>
+          <Route exact path="/Register" element={Auth(RegisterPage,false)}/>
     </Routes>
     </BrowserRouter>
     </>
