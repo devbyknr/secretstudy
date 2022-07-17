@@ -10,11 +10,17 @@ import LoginPage from "./components/views/LoginPage/LoginPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import Footer from "./components/views/Footer/Footer";
 import NavBar from "./components/views/NavBar/NavBar";
+import Auth from "./hoc/auth";
 
 
 import './App.css';
 
 function App() {
+
+  let AuthLandingPage = Auth(LandingPage,null);
+  let AuthLoginPage = Auth(LoginPage,false);
+  let AuthRegisterPage = Auth(RegisterPage,false);
+
   return ( 
     <BrowserRouter>
     <div>
@@ -26,11 +32,11 @@ function App() {
         of them to render at a time
       */}
       <Routes>
-        <Route path="/" element={<LandingPage />}></Route>
-        <Route path="/login" element={<LoginPage />}></Route>
-        <Route path="/register" element={<RegisterPage />}></Route>
-        <Route path="/Footer" element={<Footer />}></Route>
-        <Route path="/NavBar" element={<NavBar />}></Route>
+        <Route path="/" element={<AuthLandingPage/>}></Route> 
+        <Route path="/login" element={<AuthLoginPage/>}></Route>
+        <Route path="/register" element={<AuthRegisterPage/>}></Route>
+        <Route path="/footer" element={<Footer />}></Route>
+        <Route path="/navbar" element={<NavBar />}></Route>
       </Routes>
     </div>
   </BrowserRouter>

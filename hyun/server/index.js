@@ -28,7 +28,7 @@ app.get('/api/hello', (req, res) => {
 })
 
 
-app.post('/api/register',(req,res)=>{
+app.post('/api/user/register',(req,res)=>{
   //회원가입시 정보 가져오기
 
   const user = new User(req.body);
@@ -42,7 +42,7 @@ app.post('/api/register',(req,res)=>{
 
 })
 
-app.post('/login',(req,res)=>{
+app.post('/api/user/login',(req,res)=>{
   //find requested email from db
   User.findOne({ email: req.body.email},(err,user) =>{
     if(!user) {
