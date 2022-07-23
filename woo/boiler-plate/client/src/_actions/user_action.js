@@ -4,8 +4,8 @@ import{
     REGISTER_USER,
     AUTH_USER
 } from './types';
-export function loginUser(dataSubmit){
-    const request = axios.post('/api/users/login', dataSubmit)
+export async function loginUser(dataSubmit){
+    const request = await axios.post('/api/users/login', dataSubmit)
     .then(response => response.data)
 
     return{
