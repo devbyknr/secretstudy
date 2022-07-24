@@ -11,7 +11,7 @@ export default function (SpecificComponent,option,adminRoute = null){
     //false => 로그인한 유는 불능
 
     const dispatch = useDispatch();
- 
+
 
     function AuthenticationCheck(props){
 
