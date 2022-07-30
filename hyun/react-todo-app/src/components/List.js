@@ -10,6 +10,8 @@ import React, { useState } from 'react'
           return id !== data.id;
         })
         setTodoData(newTodoData);
+        localStorage.setItem("todoData",JSON.stringify(newTodoData));
+
       }
 
     let handleCompletChange = (id) => {
@@ -20,6 +22,8 @@ import React, { useState } from 'react'
             return data
         })
         setTodoData(newTodoData);
+        localStorage.setItem("todoData",JSON.stringify(newTodoData));
+
     }
 
     let handleEditedTitleChange = (e)=>{
@@ -36,6 +40,8 @@ import React, { useState } from 'react'
             return data
         })
         setTodoData(newTodoData);
+        localStorage.setItem("todoData",JSON.stringify(newTodoData));
+
         setIsEditing(false);
 
     }
