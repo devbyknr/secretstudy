@@ -1,21 +1,42 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import "./App.css";
 import Form from "./component/Form";
-import List from "./component/List";
+import Lists from "./component/Lists";
 export default function App() {
-  const [todoData, setToDoData] = useState([
-    {
-      id: "1",
-      title: "공부하기",
-      completed: false,
-    },
-    {
-      id: "2",
-      title: "청소하기",
-      completed: false,
-    },
-  ]);
+  console.log("App component");
+  const initialTodoData = localStorage.getItem("todoData")
+    ? JSON.parse(localStorage.getItem("todoData"))
+    : [];
+  const [todoData, setToDoData] = useState(initialTodoData);
   const [value, setValue] = useState("");
+
+  // /* useMemo 사용법 */
+  // //compute함수가 연산을 수행하고 값을 리턴하는데, 오랜시간이 걸릴수 있다.
+  // //계속 리랜더링을 하게 된다면, 성능에 안종을 영향을 미칠수 있기때문에,
+  // //이럴때 사용하는 hook이 useMemo
+  // function test({ a, b }) {
+  //   //const result = compute(a, b);
+  //   const result = useMemo(() => compute(a, b), [a, b]);
+  //   //위에 값이 변하지 않으면 리랜더링을 하지 않는다!!!
+  //   return <div>{result}</div>;
+  // }
+
+  //최상단에 함수가 있기때문에! 관련 모든 자식 컴포넌트에서 리랜더링이 됨
+  //useCallback으로 인해 todoData가 변하지 않는다면 함수는 새로 생성되지 않는다.
+  //새로 생성되지 않기때문에 메모리에 새로 할당하지 않고 기존 참조값을 그대로 사용한다.!
+
+  const handleClick = useCallback(
+    (id) => {
+      //filter는 주어진 함수의 테스트를 통과하는 모든 요소를 모아 새로운 배열로 반환합니다.
+      let results = todoData.filter((filterData) => filterData.id !== id);
+      console.log("result", results);
+      //hook을 안쓰고이렇게 바꿀수가 있네??
+      setToDoData(results);
+      localStorage.setItem("todoData", JSON.stringify(results));
+    },
+    [todoData]
+  );
+
   const handleSubmit = (e) => {
     //값을 추가하고
     //setState 다시하고
@@ -29,16 +50,27 @@ export default function App() {
       completed: false,
     };
     setToDoData((prev) => [...prev, newData]);
+    localStorage.setItem("todoData", JSON.stringify([...todoData, newData]));
     setValue("");
+  };
+
+  const handleRemoveClick = () => {
+    setToDoData([]);
+    localStorage.setItem("todoData", JSON.stringify([]));
   };
 
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-blue-100">
       <div className="w-full p-6 m-4 bg-white rounded shadow lg:w-3/4 lg:max-w-lg">
-        <div>
-          <h1 className="flex justify-between mb-3">할 일 목록</h1>
+        <div className="flex justify-between mb-3">
+          <h1>할 일 목록</h1>
+          <button onClick={handleRemoveClick}>Delete All</button>
         </div>
-        <List todoData={todoData} setToDoData={setToDoData}></List>
+        <Lists
+          handleClick={handleClick}
+          todoData={todoData}
+          setToDoData={setToDoData}
+        ></Lists>
         <Form
           handleSubmit={handleSubmit}
           value={value}
