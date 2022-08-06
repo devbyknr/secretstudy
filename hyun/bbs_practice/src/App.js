@@ -1,20 +1,19 @@
 import React from 'react'
+import { BrowserRouter, Routes, Route,} from "react-router-dom";
 import BBSLists from './components/BBSLists'
-import {useState} from 'react'
+import BBSWrite from './components/BBSWrite';
+import BBSInq from './components/BBSInq';
 
 function App() {
 
-  const [postListData, setPostListData] = useState([{
-    id : "1",
-    title : "제목",
-    date : "날짜",
-    views : "조회수"
-  }]);
-  
-  
-
   return (
-     <BBSLists postListData={postListData} setpostListData={setPostListData}/>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<BBSLists/>}></Route> 
+        <Route path="/write" element={<BBSWrite/>}></Route> 
+        <Route path="/inq" element={<BBSInq/>}></Route> 
+      </Routes>
+     </BrowserRouter>
   )
 }
 

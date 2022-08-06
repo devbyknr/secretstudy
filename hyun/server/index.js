@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const config = require('./config/key');
-mongoose.connect(config.mongoURI).then(()=>console.log('MongoDB connected...')).catch(err => console.log(err))
+const db = mongoose.connect(config.mongoURI).then(()=>console.log('MongoDB connected...')).catch(err => console.log(err))
 
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended:true}));
