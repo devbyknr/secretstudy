@@ -46,29 +46,47 @@ app.post("/api/create", (req, res) => {
 });
 
 app.post("/api/view", (req, res) => {
-  Board.findOneByTodoid(req.params.id)
+  Board.findOneByTodoid(req.body.id)
     .then((content) => {
-      if (!content) return res.status(404).send({ err: "Content not found" });
-      res.send(`findOne successfully: ${content}`);
+      console.log(content);
+      if (!content) {
+        return res.json({
+          loadBoardSuccess: false,
+        });
+      } else {
+        return res.json({
+          loadBoardSuccess: true,
+          board: content,
+        });
+      }
     })
     .catch((err) => res.status(500).send(err));
 });
 
-// app.get("/", (req, res) => {
-//   Board.create(req.body)
-//     .then((content) => res.send(content))
-//     .catch((err) => res.status(500).send(err));
-// });
-
 app.post("/api/modify", (req, res) => {
-  Board.updateByTodoid(req.params.id, req.body)
-    .then((content) => res.send(content))
+  console.log(req.body.id);
+  console.log(req.body);
+  Board.updateByTodoid(req.body.id, req.body)
+    .then((content) => {
+      if (!content) {
+        return res.json({
+          modifyBoardSuccess: false,
+        });
+      } else {
+        return res.json({
+          modifyBoardSuccess: true,
+        });
+      }
+    })
     .catch((err) => res.status(500).send(err));
 });
 
 app.post("/api/delete", (req, res) => {
-  Board.deleteByTodoid(req.params.id)
-    .then(() => res.sendStatus(200))
+  Board.deleteByTodoid(req.body.id)
+    .then((results) => {
+      console.log(results);
+      return res.sendStatus(200);
+    })
     .catch((err) => res.status(500).send(err));
 });
 

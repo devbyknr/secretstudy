@@ -10,6 +10,17 @@ export async function loadList(dataSubmit) {
   };
 }
 
+export async function loadBoard(dataSubmit) {
+  const request = await axios
+    .post("/api/view", dataSubmit)
+    .then((response) => response.data);
+
+  return {
+    type: "LOAD_BOARD",
+    payload: request,
+  };
+}
+
 export async function registerBoard(dataSubmit) {
   const request = await axios
     .post("/api/create", dataSubmit)
@@ -21,8 +32,10 @@ export async function registerBoard(dataSubmit) {
   };
 }
 
-export function modifyBoard() {
-  const request = axios.post("/api/modify").then((response) => response.data);
+export async function modifyBoard(dataSubmit) {
+  const request = await axios
+    .post("/api/modify", dataSubmit)
+    .then((response) => response.data);
 
   return {
     type: "UPDATE_BOARD",
@@ -30,8 +43,10 @@ export function modifyBoard() {
   };
 }
 
-export function deleteBoard() {
-  const request = axios.post("/api/delete").then((response) => response.data);
+export async function deleteBoard(dataSubmit) {
+  const request = await axios
+    .post("/api/delete", dataSubmit)
+    .then((response) => response.data);
 
   return {
     type: "DELETE_BOARD",

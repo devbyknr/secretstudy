@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import View from "./View";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loadList } from "../_actions/board_actions";
 
@@ -22,31 +22,41 @@ const Lists = () => {
 
   return (
     <>
-      <div className="items-center">
-        <button className="px-4 py-2 float-left">
-          <Link to="/"> HOME </Link>
-        </button>
-        <button className="px-4 py-2 float-left">
-          <Link to="./Regist"> 게시물작성 </Link>
-        </button>
-      </div>
-      <div className="flex items-center w-screen h-screen bg-blue-100">
-        {boardList.length === 0 ? (
-          <div>게시물이 없습니다.</div>
-        ) : (
-          boardList.map((item, index) => (
-            <div className="w-full p-6 m-4 bg-white rounded shadow">
-              <span>{item.title}</span>
-
-              <span>{item.content}</span>
-              <br />
-              <span>{item.date}</span>
-              <br />
-              <span>{item.name}</span>
-            </div>
-          ))
-        )}
-      </div>
+      <table class="table-fixed items-center justify-between w-full ">
+        <thead className="border-spacing-2 border border-slate-500">
+          <tr>
+            <th className="border-spacing-2 border border-slate-500 w-8">
+              No.
+            </th>
+            <th className="border-spacing-2 border border-slate-500">제목</th>
+            <th className="border-spacing-2 border border-slate-500 w-64">
+              작성자
+            </th>
+          </tr>
+        </thead>
+        <tbody className="border-spacing-2 border border-slate-500">
+          {boardList.length !== 0 &&
+            boardList.map((item) => (
+              <tr>
+                <td className="border-spacing-2 border border-slate-500">
+                  {item.id}
+                </td>
+                <td className="border-spacing-2 border border-slate-500">
+                  <Link
+                    to="./View"
+                    state={{ data: item }}
+                    className="text-blue-600"
+                  >
+                    {item.title}
+                  </Link>
+                </td>
+                <td className="border-spacing-2 border border-slate-500">
+                  {item.name}
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
     </>
   );
 };
