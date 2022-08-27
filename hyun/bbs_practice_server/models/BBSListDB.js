@@ -12,10 +12,16 @@ const BBSSchema = new mongoose.Schema({
   timestamps: true
 });
 
+const BBSCountSchema = new mongoose.Schema({
+  _id : { type: Number },
+  count : { type: Number},
+});
+
 BBSSchema.statics.findAll = function() {
     return this.find({});
 }
 
 // Create Model & Export
 const BBSListDB = mongoose.model('BBSListDB', BBSSchema);
-module.exports = {BBSListDB}
+const BBSCount = mongoose.model('BBSCount',BBSCountSchema);
+module.exports = {BBSListDB,BBSCount}

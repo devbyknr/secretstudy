@@ -1,5 +1,5 @@
 //xpBWZNIcIU6tT1de mongodb
-const { BBSListDB }  = require('./models/BBSListDB');
+const { BBSListDB,BBSCount }  = require('./models/BBSListDB');
 const SubUtils  = require('./utils/subUtils')
 const bodyParser = require('body-parser');
 
@@ -27,6 +27,29 @@ app.get('/api/find_all', (req, res) => {
     .catch((err) => {
       res.status(500).send(err);
     });
+});
+app.post('/api/getcnt',(req,res)=>{
+  BBSCount.find({}).then((data)=>{
+    res.status(200).send(data);
+  }).catch((err)=>{
+    console.log("catch"); 
+    res.status(500).send(err);
+  });
+
+});
+app.post('/api/test',(req,res)=>{
+  body = req.body;
+  let bbsDB = new BBSListDB(body);
+  console.log("bbsDB",bbsDB);
+
+  BBSCount.find({}).then((data)=>{
+    res.status(200).send(data);
+  }).catch((err)=>{
+    console.log("catch"); 
+    res.status(500).send(err);
+  });
+
+  res.status(200).send("OK");
 })
 
 app.post('/api/write',(req,res) =>{
@@ -42,6 +65,15 @@ app.post('/api/write',(req,res) =>{
    let body = req.body;   //post
 
   let bbsDB = new BBSListDB(body);
+  let bbsCount = 0;
+  
+  BBSCount.find({}).then((data)=>{
+    bbsCount = data.count;
+  }).catch((err)=>{
+    res.status(500).send(err);
+  });
+
+  bbsCount._id = bbsCount;
 
   bbsDB
     .save(body)
