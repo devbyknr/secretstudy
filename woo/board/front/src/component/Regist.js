@@ -17,7 +17,7 @@ const Regist = () => {
       name: name,
     };
     dispatch(registerBoard(data)).then((response) => {
-      if (response.payload.loadBoardSuccess) {
+      if (response.payload.registSuccess) {
         alert("게시물 등록 성공");
         navigate("/");
       } else {

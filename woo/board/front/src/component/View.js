@@ -45,7 +45,7 @@ const View = () => {
       id: location.state.data.id,
     };
     dispatch(deleteBoard(data)).then((response) => {
-      if (response.payload.registSuccess) {
+      if (response.payload.deleteSuccess) {
         alert("게시물 삭제 성공");
         navigate("/");
       } else {

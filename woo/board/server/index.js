@@ -84,6 +84,15 @@ app.post("/api/modify", (req, res) => {
 app.post("/api/delete", (req, res) => {
   Board.deleteByTodoid(req.body.id)
     .then((results) => {
+      if (!results) {
+        return res.json({
+          deleteSuccess: false,
+        });
+      } else {
+        return res.json({
+          deleteSuccess: true,
+        });
+      }
       console.log(results);
       return res.sendStatus(200);
     })
