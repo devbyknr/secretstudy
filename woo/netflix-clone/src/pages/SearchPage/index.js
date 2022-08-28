@@ -1,26 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
+import useDebounce from "../../hooks/useDebounce";
 
 export default function SearchPage() {
+  const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState({});
+  //URLSearchParams 파람은 url 파라미터 정보를 가져오는 interface이고
+  //useLocation은 현재 경로 파악이 가능하며 그중에 search부분에 있는 부분을 찾아오기
+  //search는 ?뒤에 파람들을 받아올수 있음
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
   };
 
   let query = useQuery();
-  const searchTerm = query.get("q");
+  const debounceSearchTerm = useDebounce(query.get("q"), 500);
 
   useEffect(() => {
-    if (searchTerm) {
-      fetchSearchMovie(searchTerm);
+    if (debounceSearchTerm) {
+      fetchSearchMovie(debounceSearchTerm);
     }
-  }, [searchTerm]);
+  }, [debounceSearchTerm]);
 
-  const fetchSearchMovie = async (searchTerm) => {
+  const fetchSearchMovie = async (debounceSearchTerm) => {
     try {
       const request = await axios.get(
-        `/search/multi?include_adult=false&query=${searchTerm}`
+        `/search/multi?include_adult=false&query=${debounceSearchTerm}`
       );
       setSearchResults(request.data.results);
     } catch (error) {}
@@ -35,7 +40,11 @@ export default function SearchPage() {
               "https://image.tmdb.org/t/p/w500" + movie.backdrop_path;
             return (
               <div className="movie" key={movie.id}>
-                <div className="movie__column-poster">
+                <div
+                  /*navigate path에 movieID를 넣어주고 movieid가 path일경우 Detail페이지로 이동 */
+                  onClick={() => navigate(`/${movie.id}`)}
+                  className="movie__column-poster"
+                >
                   <img
                     src={movieImageUrl}
                     alt="movie"
@@ -50,7 +59,7 @@ export default function SearchPage() {
     ) : (
       <section className="no-results">
         <div className="no-results__text">
-          <p>찾고자하는 검색어"{searchTerm}"에 맞는 영화가 없습니다.</p>
+          <p>찾고자하는 검색어"{debounceSearchTerm}"에 맞는 영화가 없습니다.</p>
         </div>
       </section>
     );

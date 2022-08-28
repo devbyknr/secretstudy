@@ -34,6 +34,10 @@ boardSchema.statics.updateByTodoid = function (id, content) {
   return this.findOneAndUpdate({ id }, content, { new: true });
 };
 
+// (node:3861) [MONGODB DRIVER] Warning: collection.remove is deprecated. Use deleteOne, deleteMany, or bulkWrite instead.
+// (Use `node --trace-warnings ...` to show where the warning was created)
+// { acknowledged: true, deletedCount: 1 }
+
 boardSchema.statics.deleteByTodoid = function (id) {
   return this.remove({ id });
 };
