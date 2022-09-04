@@ -34,3 +34,25 @@ test("When the + button is pressed, the counter changes 1", () => {
   const counterElement = screen.getByTestId("counter");
   expect(counterElement).toHaveTextContent(1);
 });
+
+test("ON/OFF Button has blue color", () => {
+  render(<App />);
+  const buttonElement = screen.getByTestId("onOffButton");
+  expect(buttonElement).toHaveStyle({ backgroundColor: "blue" });
+});
+
+test("ON/OFF Button is pressed plus button disabled", () => {
+  render(<App />);
+  const buttonElement = screen.getByTestId("onOffButton");
+  fireEvent.click(buttonElement); //fireEvent를 통행 접근
+  const plusButtonElement = screen.getByTestId("plusButton");
+  expect(plusButtonElement).toBeDisabled();
+});
+
+test("ON/OFF Button is pressed mius button disabled", () => {
+  render(<App />);
+  const buttonElement = screen.getByTestId("onOffButton");
+  fireEvent.click(buttonElement); //fireEvent를 통행 접근
+  const plusButtonElement = screen.getByTestId("minusButton");
+  expect(plusButtonElement).toBeDisabled();
+});
